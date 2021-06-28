@@ -9,5 +9,6 @@
   :components ((:file "package")
                (:module "src"
                 :serial t
-                :components ((:file "server")
+                :components ((:file "markup")
+                             (:file "server")
                              (:file "main")))))

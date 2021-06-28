@@ -1,5 +1,7 @@
 (in-package :cl-pokedex)
 
+;; lifetime
+
 (defvar *acceptor* nil)
 
 (defun stop ()
@@ -13,16 +15,16 @@
     (hunchentoot:start new-acceptor)
     (setf *acceptor* new-acceptor)))
 
+;; handlers
+
 (hunchentoot:define-easy-handler (index :uri "/") ()
-  (setf (hunchentoot:content-type*) "text/html")
-  (cl-who:with-html-output-to-string (s nil :indent t
-                                            :prologue t)
-    (:html
-     (:head
-      (:title "Index"))
-     (:body
-      (:h2 "Hi there!")
-      (:ul
-       (dolist (i '(1 2 3 4 5))
-         (cl-who:htm
-          (:li (cl-who:fmt "~A" i)))))))))
+  (page "Index"
+    (:main
+     (:h2 "Hi there!")
+     (:ul
+      (dolist (i '(1 2 3 4 5))
+        (cl-who:htm
+         (:li :class "fixed block"
+              (cl-who:fmt "~A" i)
+              (:button :class "inline block"
+                       "+"))))))))
