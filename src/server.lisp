@@ -11,9 +11,9 @@
 
 (defun start (&key (port 8000))
   (stop)
-  (let ((new-acceptor (make-instance 'hunchentoot:easy-acceptor :port port)))
-    (hunchentoot:start new-acceptor)
-    (setf *acceptor* new-acceptor)))
+  (hunchentoot:start
+   (setf *acceptor*
+         (make-instance 'hunchentoot:easy-acceptor :port port))))
 
 ;; handlers
 

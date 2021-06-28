@@ -4,11 +4,14 @@
   :author "astynax"
   :license "MIT"
   :depends-on ("hunchentoot"
-               "cl-who")
+               "cl-who"
+               "dbi")
   :serial t
   :components ((:file "package")
                (:module "src"
                 :serial t
-                :components ((:file "markup")
+                :components ((:file "db")
+                             (:file "pokeapi")
+                             (:file "markup")
                              (:file "server")
                              (:file "main")))))
