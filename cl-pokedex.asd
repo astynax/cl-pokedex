@@ -5,7 +5,10 @@
   :license "MIT"
   :depends-on ("hunchentoot"
                "cl-who"
-               "dbi")
+               "dbi"
+               "dexador"
+               "quri"
+               "jsown")
   :serial t
   :components ((:file "package")
                (:module "src"

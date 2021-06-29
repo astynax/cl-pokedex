@@ -7,7 +7,7 @@
     (dbi:do-sql conn
       "CREATE TABLE IF NOT EXISTS cache (
 key STRING PRIMARY KEY,
-value STRING
+value BLOB
 )")
     (dbi:do-sql conn
       "CREATE UNIQUE INDEX IF NOT EXISTS cache_key ON cache (key)")
@@ -16,8 +16,10 @@ value STRING
 (defun put-to-db (key value)
   (dbi:do-sql
     *db-connection*
-    "INSERT INTO cache (key, value) VALUES (?, ?)"
-    (list key value)))
+    "INSERT INTO cache (key, value) VALUES (?, ?)
+ON CONFLICT (key) DO
+UPDATE SET value = ?"
+    (list key value value)))
 
 (defun get-from-db (key)
   (second
