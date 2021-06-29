@@ -2,6 +2,17 @@
 
 (defvar *update-cache-p* nil)
 
+(defparameter *api-uri*
+  (quri:make-uri :scheme "https"
+                 :host "pokeapi.co"
+                 :path "/api/v2/"))
+
+(defun make-api-path (&rest segments)
+  (let ((new (quri:copy-uri *api-uri*)))
+    (dolist (seg segments (quri:render-uri new))
+      (setf (quri.uri:uri-path new)
+            (format nil "~A~A/" (quri.uri:uri-path new) seg)))))
+
 (defun simple-get (url)
   (handler-case
       (dex:get url :use-connection-pool nil)
@@ -17,15 +28,15 @@
                  (quri:make-uri
                   :defaults url
                   :query '(("limit" . "1")))))
-         (total (jsown:val (jsown:parse touch) "count"))
+         (total (at touch #'jsown:parse "count"))
          (resp (simple-get
                 (quri:make-uri
                  :defaults url
                  :query `(("limit" . ,(format nil "~A" total)))))))
-    (jsown:to-json
-     (jsown:val
-      (jsown:parse resp)
-      "results"))))
+    (at resp
+        #'jsown:parse
+        "results"
+        #'jsown:to-json)))
 
 (defun cached-get (url &key (fetcher #'simple-get))
   (let ((raw (unless *update-cache-p* (get-from-db url))))
@@ -38,5 +49,17 @@
          (jsown:parse raw))))
 
 (defun list-pokemon ()
-  (cached-get "https://pokeapi.co/api/v2/pokemon"
+  (cached-get (make-api-path "pokemon")
               :fetcher #'simple-get-list))
+
+(defun pokemon (name)
+  (let* ((p (cached-get (make-api-path "pokemon" name)))
+         (type-names (iter (for x in (at p "types"))
+                       (collect (at x "type" "name"))))
+         (sprite-urls (let ((sprites nil))
+                        (jsown:do-json-keys (k w) (at p "sprites")
+                          (when (stringp w)
+                            (setq sprites (acons k w sprites))))
+                        sprites)))
+    `((:types . ,type-names)
+      (:sprites . ,sprite-urls))))

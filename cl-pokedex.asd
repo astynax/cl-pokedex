@@ -4,16 +4,18 @@
   :author "astynax"
   :license "MIT"
   :depends-on ("hunchentoot"
-               "cl-who"
+               "spinneret"
                "dbi"
                "dexador"
                "quri"
-               "jsown")
+               "jsown"
+               "iterate")
   :serial t
   :components ((:file "package")
                (:module "src"
                 :serial t
-                :components ((:file "db")
+                :components ((:file "util")
+                             (:file "db")
                              (:file "pokeapi")
                              (:file "markup")
                              (:file "server")

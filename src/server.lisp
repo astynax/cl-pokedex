@@ -17,14 +17,26 @@
 
 ;; handlers
 
-(hunchentoot:define-easy-handler (index :uri "/") ()
-  (page "Index"
-    (:main
-     (:h2 "Hi there!")
-     (:ul
-      (dolist (i '(1 2 3 4 5))
-        (cl-who:htm
-         (:li :class "fixed block"
-              (cl-who:fmt "~A" i)
-              (:button :class "inline block"
-                       "+"))))))))
+(hunchentoot:define-easy-handler (index :uri "/") (name)
+  (setf (hunchentoot:content-type*) "text/html")
+  (if name
+      (let ((p (pokemon name)))
+        (page name
+          (:div.card.fixed.block
+           (:h2 (:a :href "/" "..") " / " name)
+           (:p
+            (dolist (type (at p :types))
+              (:span.inline.round.fixed.accent.block type)))
+           (:p
+            (iter (for (alt . url) in (at p :sprites))
+              (:span.fixed.wrapper.block
+               (:img :src url
+                     :alt alt)))))))
+      (page "Pokemons"
+        (:main
+         (:h1 "Pokemons")
+         (:ul
+          (dolist (pokemon (list-pokemon))
+            (let ((name (jsown:val pokemon "name")))
+              (:li (:a :href (format nil "/?name=~A" name)
+                       name)))))))))

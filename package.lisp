@@ -1,5 +1,5 @@
 (in-package :cl-user)
 
 (defpackage :cl-pokedex
-  (:use :cl)
+  (:use :cl :iterate)
   (:export :main))
