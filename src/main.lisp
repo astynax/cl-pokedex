@@ -17,11 +17,19 @@
     (sb-sys:interactive-interrupt (exit-cleanly))
     (t (exit-with-backtrace c))))
 
+(defun stop ()
+  (stop-server)
+  (stop-db))
+
+(defun start (&key (port 8000))
+  (start-db)
+  (start-server :port port))
+
 (defun main ()
   "Entry point for command-line execution."
   (declare (ignore argv))
   (handler-bind
       ((serious-condition #'handle-conditions))
-    (start :port 8000)
+    (start)
     (format t "Ctrl-C to exit.~%")
     (loop (sleep 1))))

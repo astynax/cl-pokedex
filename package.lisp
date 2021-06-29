@@ -2,4 +2,4 @@
 
 (defpackage :cl-pokedex
   (:use :cl :iterate)
-  (:export :main))
+  (:export :main :start :stop))

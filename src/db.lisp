@@ -1,6 +1,14 @@
 (in-package :cl-pokedex)
 
-(defvar *db-connection*
+(defvar *db-connection* nil)
+
+(defun stop-db ()
+  (when *db-connection*
+    (dbi:disconnect *db-connection*)
+    (setq *db-connection* nil)))
+
+(defun start-db ()
+  (stop-db)
   (let* ((path (uiop:xdg-data-home "cl-pokedex.sqlite3"))
          (conn (dbi:connect :sqlite3
                             :database-name path)))
@@ -11,7 +19,7 @@ value BLOB
 )")
     (dbi:do-sql conn
       "CREATE UNIQUE INDEX IF NOT EXISTS cache_key ON cache (key)")
-    conn))
+    (setq *db-connection* conn)))
 
 (defun put-to-db (key value)
   (dbi:do-sql

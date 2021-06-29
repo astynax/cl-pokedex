@@ -4,13 +4,13 @@
 
 (defvar *acceptor* nil)
 
-(defun stop ()
+(defun stop-server ()
   (when *acceptor*
     (hunchentoot:stop *acceptor*)
-    (setf *acceptor* nil)))
+    (setq *acceptor* nil)))
 
-(defun start (&key (port 8000))
-  (stop)
+(defun start-server (&key port)
+  (stop-server)
   (hunchentoot:start
    (setf *acceptor*
          (make-instance 'hunchentoot:easy-acceptor :port port))))
