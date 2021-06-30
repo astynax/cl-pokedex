@@ -8,14 +8,14 @@ The app is simple: one can browse a long list of [Pokemon](https://en.wikipedia.
 
 ## Used CL packages
 
-| package     | purpose          |
-|:-----------:|:----------------:|
-| hunchentoot | HTTP server      |
-| spinneret   | HTML generation  |
-| cl-dbi      | Database         |
-| dexador     | HTTP client      |
-| qri         | URI manipulation |
-| jsown       | JSON             |
+| package                                              | purpose          |
+|:----------------------------------------------------:|:----------------:|
+| [hunchentoot](https://edicl.github.io/hunchentoot)   | HTTP server      |
+| [spinneret](https://github.com/ruricolist/spinneret) | HTML generation  |
+| [cl-dbi](https://github.com/fukamachi/cl-dbi)        | Database         |
+| [dexador](https://github.com/fukamachi/dexador)      | HTTP client      |
+| [quri](https://github.com/fukamachi/quri)            | URI manipulation |
+| [jsown](https://github.com/madnificent/jsown)        | JSON             |
 
 ## PokeAPI
 
