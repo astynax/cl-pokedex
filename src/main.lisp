@@ -21,7 +21,7 @@
   (stop-server)
   (stop-db))
 
-(defun start (&key (port 8000))
+(defun start (&key port)
   (start-db)
   (start-server :port port))
 
@@ -30,6 +30,7 @@
   (declare (ignore argv))
   (handler-bind
       ((serious-condition #'handle-conditions))
-    (start)
+    (start
+     :port (read-from-string (or (uiop/os:getenv "PORT") "8000")))
     (format t "Ctrl-C to exit.~%")
     (loop (sleep 1))))

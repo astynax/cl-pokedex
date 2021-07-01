@@ -4,8 +4,7 @@
   (unless target
     (uiop:die 1 "Provide a file name!"))
   (sb-ext:save-lisp-and-die
-    target
-    :purify t
-    :toplevel 'cl-pokedex:main
-    :executable t
-    :save-runtime-options t))
+   target
+   :purify t
+   :toplevel 'cl-pokedex:main
+   :save-runtime-options t))
