@@ -6,5 +6,4 @@
   (sb-ext:save-lisp-and-die
    target
    :purify t
-   :toplevel 'cl-pokedex:main
-   :save-runtime-options t))
+   :toplevel 'cl-pokedex:main))

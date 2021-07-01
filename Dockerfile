@@ -28,8 +28,9 @@ RUN mkdir -p /root/.local/share
 WORKDIR /root/quicklisp/local-projects/cl-pokedex
 
 COPY . .
-RUN sbcl --noinform --disable-ldb --lose-on-corruption --end-runtime-options \
-    --disable-debugger --load docker/build.lisp \
-    /root/cl-pokedex.core
+RUN sbcl --disable-debugger --load docker/build.lisp /root/cl-pokedex.core
 
-CMD ["sbcl", "--core", "/root/cl-pokedex.core"]
+CMD sbcl --noinform --disable-ldb --lose-on-corruption \
+    --core /root/cl-pokedex.core \
+    --end-runtime-options \
+    --disable-debugger --end-toplevel-options

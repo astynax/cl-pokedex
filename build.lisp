@@ -7,5 +7,4 @@
     target
     :purify t
     :toplevel 'cl-pokedex:main
-    :executable t
-    :save-runtime-options t))
+    :executable t))
