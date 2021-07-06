@@ -28,15 +28,15 @@
                  (quri:make-uri
                   :defaults url
                   :query '(("limit" . "1")))))
-         (total (at touch #'jsown:parse "count"))
+         (total (@ touch jsown:parse "count"))
          (resp (simple-get
                 (quri:make-uri
                  :defaults url
                  :query `(("limit" . ,(format nil "~A" total)))))))
-    (at resp
-        #'jsown:parse
+    (@ resp
+        jsown:parse
         "results"
-        #'jsown:to-json)))
+        jsown:to-json)))
 
 (defun cached-get (url &key (fetcher #'simple-get))
   (let ((raw (unless *update-cache-p* (get-from-db url))))
@@ -54,10 +54,10 @@
 
 (defun pokemon (name)
   (let* ((p (cached-get (make-api-path "pokemon" name)))
-         (type-names (iter (for x in (at p "types"))
-                       (collect (at x "type" "name"))))
+         (type-names (iter (for x in (@ p "types"))
+                       (collect (@ x "type" "name"))))
          (sprite-urls (let ((sprites nil))
-                        (jsown:do-json-keys (k w) (at p "sprites")
+                        (jsown:do-json-keys (k w) (@ p "sprites")
                           (when (stringp w)
                             (setq sprites (acons k w sprites))))
                         sprites)))

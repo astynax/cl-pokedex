@@ -25,10 +25,10 @@
           (:div.card.fixed.block
            (:h2 (:a :href "/" "..") " / " name)
            (:p
-            (dolist (type (at p :types))
+            (dolist (type (@ p :types))
               (:span.inline.round.fixed.accent.block type)))
            (:p
-            (iter (for (alt . url) in (at p :sprites))
+            (iter (for (alt . url) in (@ p :sprites))
               (:span.fixed.wrapper.block
                (:img :src url
                      :alt alt)))))))
@@ -36,7 +36,7 @@
         (:main
          (:h1 "Pokemons")
          (:ul
-          (dolist (pokemon (list-pokemon))
-            (let ((name (jsown:val pokemon "name")))
+          (dolist (p (list-pokemon))
+            (let ((name (@ p "name")))
               (:li (:a :href (format nil "/?name=~A" name)
                        name)))))))))
